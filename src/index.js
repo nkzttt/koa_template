@@ -2,10 +2,12 @@ if (module.hot) {
 	module.hot.accept();
 }
 
-// load css
-require('./style.styl');
+// load stylesheets
+import Style from './style.styl';
 
-const $ = require('jquery');
+// load scripts
+import $ from 'jquery';
+import log from './console';
 
 const sleep = (msec) => new Promise((resolve) => {
 	setTimeout(resolve, msec);
@@ -14,5 +16,5 @@ const sleep = (msec) => new Promise((resolve) => {
 (async () => {
 	await sleep(2000);
 	console.log($('body').length);
-	require('./console')();
+	log();
 })();

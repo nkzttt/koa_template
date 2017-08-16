@@ -1,8 +1,12 @@
 # koa_template
 
-koa v2を使用した開発テンプレート  
-koa-generatorから雛形生成  
+This template is created by 'koa-generator';
 
-## webpack
-- babel
-- css（stylus / autoprefixer）
+## commands
+- `npm start` - It builds source for production.
+- `npm run dev` - It launches server for development.
+
+## modules
+- view - ect
+- css - stylus
+- js - babel

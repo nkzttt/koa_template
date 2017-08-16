@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/nodemon bin/run",
-    "koa": "./node_modules/.bin/runkoa bin/www",
-    "pm2": "pm2 start bin/run ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run prod",
+    "prod": "run-s prod:build prod:server",
+    "prod:server": "cross-env NODE_ENV=production node bin/run",
+    "prod:build": "webpack --config webpack.config.prod",
+    "dev": "npm-run-all dev:clean -p dev:server dev:open",
+    "dev:server": "cross-env NODE_ENV=development nodemon bin/run",
+    "dev:open": "wait-on http://localhost:3000 && opener http://localhost:3000",
+    "dev:clean": "rimraf public"
   },
   "dependencies": {
     "babel": "^6.23.0",
@@ -42,5 +46,12 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "cross-env": "^5.0.5",
+    "npm-run-all": "^4.0.2",
+    "opener": "^1.4.3",
+    "rimraf": "^2.6.1",
+    "wait-on": "^2.0.2"
   }
 }

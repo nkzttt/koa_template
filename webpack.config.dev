@@ -5,7 +5,10 @@ module.exports = {
 	plugins: [
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NoEmitOnErrorsPlugin()
+		new webpack.NoEmitOnErrorsPlugin(),
+		new webpack.DefinePlugin({
+			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+		})
 	],
 	entry: {
 		index: [
@@ -34,8 +37,18 @@ module.exports = {
 			{
 				test: /\.styl$/,
 				use: [
-					'style-loader',
-					'css-loader',
+					{
+						loader: 'style-loader',
+						options: {
+							sourceMap: true
+						}
+					},
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true
+						}
+					},
 					{
 						loader: 'postcss-loader',
 						options: {
@@ -45,12 +58,19 @@ module.exports = {
 										browsers: ['last 2 versions']
 									})
 								]
-							}
+							},
+							sourceMap: true
 						}
 					},
-					'stylus-loader'
+					{
+						loader: 'stylus-loader',
+						options: {
+							sourceMap: true
+						}
+					}
 				]
 			}
 		]
-	}
+	},
+	devtool: 'cheap-module-eval-source-map'
 };

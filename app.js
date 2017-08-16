@@ -8,13 +8,9 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
 const webpack = require('webpack');
-const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
-
-const devConfig = require('./webpack.config.js');
-const compile = webpack(devConfig);
 
 // middlewares
 app.use(convert(bodyparser));
@@ -30,16 +26,25 @@ app.use(views(__dirname + '/views', {
   }
 }));
 
-app.use(devMiddleware(compile, {
-  publicPath: devConfig.output.publicPath,
-  stats: {
-    colors: true
-  }
-}));
+// for development
+if (process.env.NODE_ENV === 'development') {
 
-app.use(hotMiddleware(compile, {
-  log: console.log
-}));
+  const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
+  const devConfig = require('./webpack.config.dev');
+  const compile = webpack(devConfig);
+
+  app.use(devMiddleware(compile, {
+    publicPath: devConfig.output.publicPath,
+    stats: {
+      colors: true
+    }
+  }));
+
+  app.use(hotMiddleware(compile, {
+    log: console.log
+  }));
+
+}
 
 // logger
 app.use(async (ctx, next) => {

@@ -44,6 +44,12 @@ if (process.env.NODE_ENV === 'development') {
     log: console.log
   }));
 
+  const livereload = require('livereload');
+  const lrServer = livereload.createServer({
+    exts: ['ect']
+  });
+  lrServer.watch(__dirname + '/views');
+
 }
 
 // logger

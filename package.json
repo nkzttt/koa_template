@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.0.5",
+    "livereload": "^0.6.2",
     "npm-run-all": "^4.0.2",
     "opener": "^1.4.3",
     "rimraf": "^2.6.1",

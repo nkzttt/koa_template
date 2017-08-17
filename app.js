@@ -29,6 +29,7 @@ app.use(views(__dirname + '/views', {
 // for development
 if (process.env.NODE_ENV === 'development') {
 
+  // hot reload by webpack
   const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
   const devConfig = require('./webpack.config.dev');
   const compile = webpack(devConfig);
@@ -44,6 +45,7 @@ if (process.env.NODE_ENV === 'development') {
     log: console.log
   }));
 
+  // livereload
   const livereload = require('livereload');
   const lrServer = livereload.createServer({
     exts: ['ect']
@@ -60,6 +62,13 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
+// return object for 'ctx.state' after merge.
+app.context.createState = (state) => {
+  const commonState = {
+    env: process.env.NODE_ENV
+  };
+  return Object.assign({}, commonState, state);
+};
 
 // routing
 router.use('/', index.routes(), index.allowedMethods());

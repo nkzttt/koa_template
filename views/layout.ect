@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title><%= @title %></title>
-  <script src="/js/index.js"></script>
+  <% if @env == 'production': %>
+  <link rel="stylesheet" href="/js/css/index.css">
+  <% end %>
 </head>
 <body>
 <% content %>
+<%= @env %>
+<script src="/js/index.js"></script>
 </body>
 </html>

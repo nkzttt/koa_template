@@ -1,7 +1,6 @@
 if (module.hot) {
 	module.hot.accept();
 }
-if (process.env.NODE_ENV === 'development') {}
 
 // load stylesheets
 import Style from './style.styl';

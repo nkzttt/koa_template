@@ -1,5 +1,6 @@
 require('babel-polyfill');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	plugins: [
@@ -7,12 +8,17 @@ module.exports = {
 		new webpack.optimize.UglifyJsPlugin(),
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-		})
+		}),
+		new ExtractTextPlugin('css/[name].css')
 	],
 	entry: {
 		index: [
 			'eventsource-polyfill',
 			'./src/index.js'
+		],
+		page: [
+			'eventsource-polyfill',
+			'./src/page.js'
 		]
 	},
 	output: {
@@ -34,23 +40,25 @@ module.exports = {
 			},
 			{
 				test: /\.styl$/,
-				use: [
-					'style-loader',
-					'css-loader',
-					{
-						loader: 'postcss-loader',
-						options: {
-							plugins: function () {
-								return [
-									require('autoprefixer')({
-										browsers: ['last 2 versions']
-									})
-								]
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: [
+						'css-loader',
+						{
+							loader: 'postcss-loader',
+							options: {
+								plugins: function () {
+									return [
+										require('autoprefixer')({
+											browsers: ['last 2 versions']
+										})
+									]
+								}
 							}
-						}
-					},
-					'stylus-loader'
-				]
+						},
+						'stylus-loader'
+					]
+				})
 			}
 		]
 	}

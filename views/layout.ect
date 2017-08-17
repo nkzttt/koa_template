@@ -9,7 +9,7 @@
 </head>
 <body>
 <% content %>
-<%= @env %>
 <script src="/js/index.js"></script>
+<% if @env == 'development': %><script src="http://localhost:35729/livereload.js?snipver=1"></script><% end %>
 </body>
 </html>

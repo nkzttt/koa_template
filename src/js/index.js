@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import log from './console';
+import log from './util/console';
 
 const sleep = (msec) => new Promise((resolve) => {
 	setTimeout(resolve, msec);

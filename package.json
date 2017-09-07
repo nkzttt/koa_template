@@ -7,10 +7,12 @@
     "prod": "run-s prod:build prod:server",
     "prod:server": "cross-env NODE_ENV=production node bin/run",
     "prod:build": "webpack --config webpack.config.prod",
-    "dev": "npm-run-all dev:clean -p dev:server dev:open",
+    "dev": "npm-run-all dev:clean build -p dev:server dev:open",
     "dev:server": "cross-env NODE_ENV=development nodemon bin/run",
     "dev:open": "wait-on http://localhost:3000 && opener http://localhost:3000",
-    "dev:clean": "rimraf public"
+    "dev:clean": "rimraf public",
+    "build": "run-s build:*",
+    "build:js": "node scripts/js"
   },
   "dependencies": {
     "co": "^4.6.0",
@@ -30,11 +32,19 @@
     "runkoa": "^1.3.1"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0",
     "cross-env": "^5.0.5",
     "livereload": "^0.6.2",
+    "mkdirp": "^0.5.1",
     "npm-run-all": "^4.0.2",
     "opener": "^1.4.3",
     "rimraf": "^2.6.1",
+    "uglifyify": "^4.0.3",
     "wait-on": "^2.0.2"
   }
 }

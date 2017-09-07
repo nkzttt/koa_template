@@ -1,6 +1,9 @@
 # koa_template
 
-This template is created by 'koa-generator';
+## information
+This template is created by 'koa-generator', and use webpack for compilation.
+If there is anything problem in the webpack, please switch to 'unuseWP' branch and clone it.
+
 
 ## Node version
 `v8.4.0`

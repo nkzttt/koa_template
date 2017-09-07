@@ -7,7 +7,6 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
-const webpack = require('webpack');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -28,22 +27,6 @@ app.use(views(__dirname + '/views', {
 
 // for development
 if (process.env.NODE_ENV === 'development') {
-
-  // hot reload by webpack
-  const { devMiddleware, hotMiddleware } = require('koa-webpack-middleware');
-  const devConfig = require('./webpack.config.dev');
-  const compile = webpack(devConfig);
-
-  app.use(devMiddleware(compile, {
-    publicPath: devConfig.output.publicPath,
-    stats: {
-      colors: true
-    }
-  }));
-
-  app.use(hotMiddleware(compile, {
-    log: console.log
-  }));
 
   // livereload
   const livereload = require('livereload');

@@ -1,11 +1,3 @@
-if (module.hot) {
-	module.hot.accept();
-}
-
-// load stylesheets
-import Style from './style.styl';
-
-// load scripts
 import $ from 'jquery';
 import log from './console';
 

@@ -13,6 +13,7 @@
     "build": "run-p build:*",
     "build:js": "node scripts/js",
     "build:css": "node scripts/css",
+    "build:asset": "node scripts/asset",
     "prebuild": "rimraf public"
   },
   "dependencies": {
@@ -42,6 +43,7 @@
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
     "cross-env": "^5.0.5",
+    "fs-extra": "^4.0.1",
     "globby": "^6.1.0",
     "livereload": "^0.6.2",
     "mkdirp": "^0.5.1",

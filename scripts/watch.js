@@ -4,7 +4,8 @@ const bs = require('browser-sync').create();
 
 const compiler = {
   css: require('./css'),
-  js: require('./js')
+  js: require('./js'),
+  asset: require('./asset')
 };
 
 // start server
@@ -31,6 +32,11 @@ const watchConfigs = [
   {
     dir: path.resolve('src/js'),
     compiler: compiler.js,
+    reload: ''
+  },
+  {
+    dir: path.resolve('assets'),
+    compiler: compiler.asset,
     reload: ''
   }
 ];

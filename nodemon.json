@@ -1,3 +1,3 @@
 {
-  "ignore": ["src/*", "public/*", "scripts/*"]
+  "ignore": ["src/*", "assets/*", "public/*", "scripts/*"]
 }

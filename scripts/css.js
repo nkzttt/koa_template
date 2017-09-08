@@ -3,32 +3,53 @@ const path = require('path');
 const globby = require('globby');
 const mkdirp = require('mkdirp');
 const stylus = require('stylus');
+const autoprefixer = require('autoprefixer-stylus');
 
 const srcPath = path.resolve('src/css');
 const regFilePath = new RegExp(`^${srcPath}(.+)$`);
 const distPath = path.resolve('public/css');
 
-return console.log(stylus);
 // compile promise function
 const compile = (filePath) => {
   return new Promise((resolve) => {
-    const b = browserify();
-    b.add(filePath);
-    b.transform('babelify', babelConfig);
-    b.transform('uglifyify', {global: true});
-    b.bundle((err, buf) => {
-      if (err) {
-        console.error(err);
-        return resolve();
-      }
+    const code = fs.readFileSync(filePath, 'utf8');
+    stylus(code)
+      .set('paths', [srcPath])
+      .use(autoprefixer())
+      .render((err, css) => {
+        if (err) {
+          console.error(err);
+          return resolve();
+        }
 
-      const distFullPath = path.join(distPath, filePath.match(regFilePath)[1]);
-      mkdirp.sync(distFullPath.match(/^(.+)\//)[1]);
-      fs.writeFileSync(distFullPath, buf);
-      resolve();
-    });
+        let distFullPath = path.join(distPath, filePath.match(regFilePath)[1]).replace('\.styl', '\.css');
+        mkdirp.sync(distFullPath.match(/^(.+)\//)[1]);
+        fs.writeFileSync(distFullPath, css);
+        resolve();
+      });
   });
 };
 
+// create array for running Promise.all
+const tasks = [];
+const files = globby.sync([
+  path.join(srcPath, '**/*.styl'),
+  '!' + path.join(srcPath, '_mixins/*'),
+  '!' + path.join(srcPath, '_partials/*'),
+  '!' + path.join(srcPath, '_variables/*')
+]);
+files.forEach((filePath) => {
+  tasks.push(compile(filePath));
+});
+
+// compile execution
+Promise.all(tasks).then(() => {
+  process.exit(0);
+}).catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+
 // exports module
 module.exports = compile;
+

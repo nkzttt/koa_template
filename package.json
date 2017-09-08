@@ -11,8 +11,9 @@
     "dev:server": "cross-env NODE_ENV=development nodemon bin/run",
     "dev:open": "wait-on http://localhost:3000 && opener http://localhost:3000",
     "dev:clean": "rimraf public",
-    "build": "run-s build:*",
-    "build:js": "node scripts/js"
+    "build": "run-p build:*",
+    "build:js": "node scripts/js",
+    "build:css": "node scripts/css"
   },
   "dependencies": {
     "co": "^4.6.0",
@@ -45,6 +46,7 @@
     "npm-run-all": "^4.0.2",
     "opener": "^1.4.3",
     "rimraf": "^2.6.1",
+    "stylus": "^0.54.5",
     "uglifyify": "^4.0.3",
     "wait-on": "^2.0.2"
   }

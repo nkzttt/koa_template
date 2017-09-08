@@ -9,13 +9,14 @@
     "prod:build": "npm run build",
     "dev": "npm-run-all build -p dev:*",
     "dev:server": "cross-env NODE_ENV=development nodemon bin/run",
-    "dev:open": "wait-on http://localhost:3000 && opener http://localhost:3000",
+    "dev:watch": "wait-on http://localhost:3000 && node scripts/watch",
     "build": "run-p build:*",
     "build:js": "node scripts/js",
     "build:css": "node scripts/css",
     "prebuild": "rimraf public"
   },
   "dependencies": {
+    "browser-sync": "^2.18.13",
     "co": "^4.6.0",
     "debug": "^2.2.0",
     "ect": "^0.5.9",
@@ -45,7 +46,6 @@
     "livereload": "^0.6.2",
     "mkdirp": "^0.5.1",
     "npm-run-all": "^4.0.2",
-    "opener": "^1.4.3",
     "rimraf": "^2.6.1",
     "stylus": "^0.54.5",
     "uglifyify": "^4.0.3",

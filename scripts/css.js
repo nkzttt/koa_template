@@ -30,6 +30,11 @@ const compile = (filePath) => {
   });
 };
 
+// if this script is called by 'require', export compile module and end.
+if (require.main !== module) {
+  return module.exports = compile;
+}
+
 // create array for running Promise.all
 const tasks = [];
 const files = globby.sync([
@@ -49,7 +54,3 @@ Promise.all(tasks).then(() => {
   console.error(err);
   process.exit(1);
 });
-
-// exports module
-module.exports = compile;
-

@@ -12,4 +12,5 @@ This template is created by 'koa-generator';
 ## modules
 - view - ect
 - css - stylus
+  - It is using minireset.css to reset styles.
 - js - babel

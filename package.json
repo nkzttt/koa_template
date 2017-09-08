@@ -6,14 +6,14 @@
     "start": "npm run prod",
     "prod": "run-s prod:build prod:server",
     "prod:server": "cross-env NODE_ENV=production node bin/run",
-    "prod:build": "webpack --config webpack.config.prod",
-    "dev": "npm-run-all dev:clean build -p dev:server dev:open",
+    "prod:build": "npm run build",
+    "dev": "npm-run-all build -p dev:*",
     "dev:server": "cross-env NODE_ENV=development nodemon bin/run",
     "dev:open": "wait-on http://localhost:3000 && opener http://localhost:3000",
-    "dev:clean": "rimraf public",
     "build": "run-p build:*",
     "build:js": "node scripts/js",
-    "build:css": "node scripts/css"
+    "build:css": "node scripts/css",
+    "prebuild": "rimraf public"
   },
   "dependencies": {
     "co": "^4.6.0",

@@ -26,16 +26,7 @@ app.use(views(__dirname + '/views', {
 }));
 
 // for development
-if (process.env.NODE_ENV === 'development') {
-
-  // livereload
-  const livereload = require('livereload');
-  const lrServer = livereload.createServer({
-    exts: ['ect']
-  });
-  lrServer.watch(__dirname + '/views');
-
-}
+if (process.env.NODE_ENV === 'development') {}
 
 // logger
 app.use(async (ctx, next) => {

@@ -38,6 +38,11 @@ const watchConfigs = [
     dir: path.resolve('assets'),
     compiler: compiler.asset,
     reload: ''
+  },
+  {
+    dir: path.resolve('views'),
+    compiler: null,
+    reload: ''
   }
 ];
 
@@ -56,10 +61,14 @@ watchConfigs.forEach(function (config) {
         filename;
       const fileFullPath = path.join(config.dir, _filename);
       outputLog(event, fileFullPath);
-      
-      config.compiler(fileFullPath).then(() => {
+
+      if (config.compiler) {
+        config.compiler(fileFullPath).then(() => {
+          bs.reload(config.reload);
+        });
+      } else {
         bs.reload(config.reload);
-      });
+      }
     });
   });
 });

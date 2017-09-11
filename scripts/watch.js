@@ -1,3 +1,4 @@
+const exec = require('child_process').exec;
 const fs = require('fs');
 const path = require('path');
 const bs = require('browser-sync').create();
@@ -27,21 +28,25 @@ const watchConfigs = [
   {
     dir: path.resolve('src/css'),
     compiler: compiler.css,
+    script: 'npm run build:css',
     reload: '*.css'
   },
   {
     dir: path.resolve('src/js'),
     compiler: compiler.js,
+    script: 'npm run build:js',
     reload: ''
   },
   {
     dir: path.resolve('assets'),
     compiler: compiler.asset,
+    script: 'npm run build:asset',
     reload: ''
   },
   {
     dir: path.resolve('views'),
     compiler: null,
+    script: null,
     reload: ''
   }
 ];
@@ -62,13 +67,12 @@ watchConfigs.forEach(function (config) {
       const fileFullPath = path.join(config.dir, _filename);
       outputLog(event, fileFullPath);
 
-      if (config.compiler) {
-        config.compiler(fileFullPath).then(() => {
-          bs.reload(config.reload);
-        });
-      } else {
+      // check whether the path is a build target and switch the function to use accordingly.
+      const compileFn = /^_/.test(filename) ? compileByScript : compileByCompiler;
+      
+      compileFn(config, fileFullPath).then(() => {
         bs.reload(config.reload);
-      }
+      });
     });
   });
 });
@@ -86,3 +90,34 @@ function outputLog(event, filename) {
   console.log('--------------------------------');
 }
 
+/**
+ * when filename is not build target, run npm script and build all file 
+ * @param config
+ * @returns {Promise}
+ */
+function compileByScript(config) {
+  return new Promise((resolve) => {
+    if (!config.script) return resolve();
+
+    exec(config.script, (err, stdout, stderr) => {
+      if (err) console.error(err);
+      resolve();
+    });
+  });
+}
+
+/**
+ * when filename is build target, build target file by compiler 
+ * @param fileFullPath
+ * @param config
+ * @returns {Promise}
+ */
+function compileByCompiler(config, fileFullPath) {
+  return new Promise((resolve) => {
+    if (!config.compiler) return resolve();
+
+    config.compiler(fileFullPath).then(() => {
+      resolve();
+    });
+  });
+}

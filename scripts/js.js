@@ -9,13 +9,17 @@ const srcPath = path.resolve('src/js');
 const regFilePath = new RegExp(`^${srcPath}(.+)$`);
 const distPath = path.resolve('public/js');
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // compile promise function
 const compile = (filePath) => {
   return new Promise((resolve) => {
     const b = browserify();
     b.add(filePath);
     b.transform('babelify', babelConfig);
-    b.transform('uglifyify', {global: true});
+    if (isProd) {
+      b.transform('uglifyify', {global: true});
+    }
     b.bundle((err, buf) => {
       if (err) {
         console.error(err);

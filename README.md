@@ -12,6 +12,10 @@ If there is anything problem in the webpack, please switch to 'unuseWP' branch a
 - `npm start` - It builds source for production.
 - `npm run dev` - It launches server for development.
 
+## protocol
+if env variable is `production`, please access to `https:` protocol, because it is used http2.  
+and if env variable is `development` please access to `http:` protocol.  
+
 ## modules
 - view - ect
 - css - stylus

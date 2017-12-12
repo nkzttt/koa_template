@@ -6,7 +6,6 @@
 
 var app = require('../app');
 var debug = require('debug')('demo:server');
-var http = require('http');
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +18,19 @@ var port = normalizePort(process.env.PORT || '3000');
  * Create HTTP server.
  */
 
-var server = http.createServer(app.callback());
+var server;
+if (process.env.NODE_ENV === 'development') {
+  var http = require('http');
+  server = http.createServer(app.callback());
+} else {
+  var http2 = require('http2');
+  var fs = require('fs');
+  var options = {
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.crt')
+  };
+  server = http2.createServer(options, app.callback());
+}
 
 /**
  * Listen on provided port, on all network interfaces.
